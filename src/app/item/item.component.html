@@ -1,0 +1,37 @@
+<div class="item-wrapper">
+    <button (click)="handleExpansion()" class="header-button" [ngClass]="{open: expanded}">
+        <div class="arrow-container">    
+            <img src="../../assets/chevron-up-solid.svg" [ngClass]="{open: expanded}"/>
+        </div>
+        <span>{{ item().name}}</span></button>
+    <div class="content" [ngClass]="{open: expanded}">
+
+        <div class="inner">
+            <div class="sizes-wrapper">
+                @for (price of testPriceMap[item().itemId]; track $index) {
+                <div class="size-wrapper">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" (change)="handleCheckbox($event, price.sizeId)" [checked]="!checkboxDisabledStates[price.sizeId]"
+                            id="{{item().name}}{{price.sizeId}}" />
+
+                        <label for="{{item().name}}{{price.sizeId}}">{{ getSizeName(price.sizeId) }}</label>
+                    </div>
+
+                    <div class="input-wrapper">
+                        <span>$</span>
+                        <input [(ngModel)]="testPriceMap[item().itemId][$index].price" [disabled]="isInputDisabled(price.sizeId)"
+                            id="{{item().name}}{{price.sizeId}}--input"
+                            type="text"
+                            (input)="onPriceInput($event, price.sizeId)" />
+                    </div>
+                </div>
+                }
+            </div>
+
+            @if(showReset){
+            <button (click)="resetValues()" class="reset-button" [ariaLabel]="'Reset Item'"><img src="../../assets/rotate-right-solid.svg"/></button>
+            }
+        </div>
+    </div>
+
+</div>
